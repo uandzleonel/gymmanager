@@ -1,0 +1,21 @@
+{
+  "name": "gerenciadordeacademias",
+  "description": "Gerenciador de Academias",
+  "version": "1.0.0",
+  "main": "server.js",
+  "author": "Uanderson Leonel <uandzleonel@outlook.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "method-override": "^3.0.0",
+    "nunjucks": "^3.2.2",
+    "pg": "^8.3.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}

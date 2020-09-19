@@ -1,0 +1,391 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;700&display=swap');
+
+:root {
+  --primary-color: #264377;
+  --secondary-color: #fca311;
+  --tag-text-color: #14213d;
+  --red: rgb(230, 0, 0);
+  --delete-color: rgb(245, 83, 83);
+  --white: rgb(238, 238, 238);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  border: none;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+
+  font-family: 'Roboto', sans-serif;
+  background-color: var(--primary-color);
+}
+
+header {
+  background-color: var(--white);
+  width: 100%;
+  padding: 32px;
+  text-align: center;
+}
+
+.links {
+  font-size: 22px;
+}
+
+.links a {
+  text-decoration: none;
+  color: #777;
+  position: relative;
+}
+
+.links a + a {
+  margin-left: 32px;
+}
+
+.links a.active {
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.links a:hover {
+  color: var(--primary-color);
+}
+
+.links a::after {
+  content: "";
+  position: absolute;
+  background-color: var(--primary-color);
+  width: 0;
+  height: 2px;
+  left: 0;
+  bottom: -6px;
+}
+
+.links a:hover::after {
+  width: 100%;
+  transition: width 400ms ease;
+}
+
+.card {
+  background-color: var(--white);
+  width: 800px;
+  min-height: 400px;
+  margin: 50px auto;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  box-shadow: 0px 2px 10px -2px rgba(0, 0, 0, 1);
+
+  animation: cardUp 600ms ease;
+}
+
+@keyframes cardUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* == DETAILS == */
+
+.details {
+  padding: 32px;
+}
+
+.details .item {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 16px 0;
+}
+
+.details .item:last-child {
+  border-bottom: none;
+}
+
+.details h3,
+.details .item div:nth-child(1) {
+  font-size: 14px;
+  line-height: 24px;
+  color: #777;
+  font-weight: normal;
+}
+
+.details .item div:nth-child(2) {
+  color: #555;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.details h3 {
+  text-transform: uppercase;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.details .item span {
+  padding: 8px 16px;
+  background-color: var(--secondary-color);
+  border-radius: 16px;
+  color: var(--tag-text-color);
+  font-size: 12px;
+  display: inline-block;
+  margin-top: 8px;
+  font-weight: bold;
+}
+
+/* == FORM == */
+
+input,
+select {
+  width: 100%;
+  outline: none;
+  color: #555;
+  font-size: 18px;
+  font-weight: bold;
+  background-color: rgb(238, 238, 238);;
+}
+
+input[type="radio"] {
+  width: initial;
+  margin-right: 4px;
+}
+
+input::placeholder {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+button[type="submit"],
+a.button {
+  padding: 8px 32px;
+  color: white;
+  background-color: var(--primary-color);
+  margin-top: 32px;
+  width: 100%;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+a.button {
+  display: block;
+  box-sizing: border-box;
+  text-align: center;
+  text-decoration: none;
+}
+
+.form-delete button[type="submit"] {
+  margin-top: 8px;
+  background-color: var(--delete-color);
+}
+
+/* INSTRUCTOR INDEX */
+
+table { 
+  border-collapse: collapse; 
+}
+
+table tr {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.table-container {
+  display: block;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+.table-container table thead tr th {
+  text-align: left;
+}
+
+th, td {
+  padding: 16px;
+}
+
+th {
+  text-transform: uppercase;
+  color: #777;
+  font-size: 14px;
+}
+
+td {
+  font-weight: bold;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr td:first-child {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  align-items: center;
+}
+
+tbody tr td:first-child span {
+  height: 48px;
+  width: 48px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+  box-shadow: 3px 1px 6px -4px black;
+  border: 2px solid white;
+}
+
+tbody tr td:last-child a,
+.table-container > a {
+  background-color: var(--primary-color);
+  padding: 8px 16px;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: white;
+  border-radius: 4px;
+
+  font-size: 12px;
+}
+
+.table-container > a {
+  margin-bottom: 16px;
+  display: inline-block;
+  font-weight: bold;
+}
+
+.table-container table thead tr th:last-child,
+td:last-child {
+  text-align: center;
+}
+
+.table-container table .item span {
+  padding: 8px 16px;
+  background-color: var(--secondary-color);
+  border-radius: 16px;
+  color: var(--tag-text-color);
+  font-size: 12px;
+  display: inline-block;
+  margin-top: 8px;
+  font-weight: bold;
+}
+
+.table-container .inConstruction {
+  background-color: var(--delete-color);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 12px;
+  text-align: right;
+  margin-bottom: 16px;
+  display: inline-block;
+  font-weight: bold;
+}
+
+/* ERROR CONTAINER */
+
+.error-container {
+  background-color: var(--delete-color);
+  max-width: 800px;
+  padding: 16px 8px;
+  margin: 10vh auto;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.error-title {
+  color: var(--white);
+  font-weight: bold;
+  text-align: center;
+}
+
+.error-message {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: bold;
+  text-align: center;
+}
+
+.error-options {
+  width: 200px;
+  margin: 0 auto;
+}
+
+.error-button {
+  width: 200px;
+  font-size: 18px;
+  font-weight: normal;
+  border-radius: 4px;
+}
+
+.error-button:hover {
+  cursor: pointer;
+}
+
+/* ALERT CONTAINER */
+
+.alert-container {
+  background-color: #ddda2e;
+  max-width: 800px;
+  padding: 16px 8px;
+  margin: 10vh auto;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.alert-title {
+  color: var(--white);
+  font-weight: bold;
+  text-align: center;
+}
+
+.alert-message {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: bold;
+  text-align: center;
+}
+
+.alert-options {
+  width: 200px;
+  margin: 0 auto;
+}
+
+.alert-button {
+  width: 200px;
+  font-size: 18px;
+  font-weight: normal;
+  border-radius: 4px;
+}
+
+.alert-button:hover {
+  cursor: pointer;
+}
+
+/* FOOTER */
+
+footer {
+  background-color: var(--white);
+
+  width: 100%;
+  padding: 16px;
+
+  margin-top:auto;
+
+  font-size: 14px;
+  text-align: center;
+}
+
+.footer-link {
+  text-decoration: none;
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+.footer-link:hover {
+  border-bottom: 1px solid;
+}
