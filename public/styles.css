@@ -28,7 +28,7 @@ body {
 header {
   background-color: var(--white);
   width: 100%;
-  padding: 32px;
+  padding: 24px 32px;
   text-align: center;
 }
 
@@ -244,7 +244,7 @@ tbody tr td:first-child span {
 }
 
 tbody tr td:last-child a,
-.table-container > a {
+.table-container .table-header > a {
   background-color: var(--primary-color);
   padding: 8px 16px;
   text-decoration: none;
@@ -255,10 +255,10 @@ tbody tr td:last-child a,
   font-size: 12px;
 }
 
-.table-container > a {
+.table-container .table-header > a {
   margin-bottom: 16px;
-  display: inline-block;
   font-weight: bold;
+  text-align: center;
 }
 
 .table-container table thead tr th:last-child,
@@ -274,17 +274,6 @@ td:last-child {
   font-size: 12px;
   display: inline-block;
   margin-top: 8px;
-  font-weight: bold;
-}
-
-.table-container .inConstruction {
-  background-color: var(--delete-color);
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-size: 12px;
-  text-align: right;
-  margin-bottom: 16px;
-  display: inline-block;
   font-weight: bold;
 }
 
@@ -388,4 +377,38 @@ footer {
 
 .footer-link:hover {
   border-bottom: 1px solid;
+}
+
+/* CARD HEADER */
+.table-container .table-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.table-container .table-header form {
+  display: grid;
+  grid-template-columns: 1fr 120px;
+  align-items: center;
+  grid-gap: 8px;
+}
+
+.table-container .table-header a,
+.table-container .table-header form button {
+  margin: 0;
+  width: 120px;
+  border-radius: 4px;
+
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.table-container .table-header form button {
+  cursor: pointer;
+}
+
+.table-container .table-header form input {
+  border: 1px solid rgb(218, 217, 217);
+  padding: 4px 8px;
 }

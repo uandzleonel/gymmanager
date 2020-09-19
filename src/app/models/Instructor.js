@@ -3,7 +3,18 @@ const db = require('../../config/db');
 module.exports = {
   all(callback) {
     const query = `
-      SELECT * FROM instructors ORDER BY name ASC
+      SELECT
+        instructors.*,
+        COUNT(members.id) AS total_students
+      FROM
+        instructors
+      LEFT JOIN members
+        ON members.instructor_id = instructors.id
+      GROUP BY
+        instructors.id
+      ORDER BY
+        total_students DESC,
+        instructors.name ASC
     `;
 
     db.query(query, (error, results) => {
@@ -43,20 +54,49 @@ module.exports = {
   find(id, callback){
     const query = `
       SELECT
-        id,
-        name,
-        avatar_url,
-        gender,
-        services,
-        birth,
-        created_at
-      FROM instructors
-      WHERE id = $1
+        instructors.*,
+        COUNT(members.id) AS total_students
+      FROM
+        instructors
+      LEFT JOIN members
+        ON members.instructor_id = instructors.id
+      WHERE
+        instructors.id = $1
+      GROUP BY
+        instructors.id
+      ORDER BY
+        total_students DESC,
+        instructors.name ASC
     `;
 
     db.query(query, [id], (error, results) => {
       if(error) throw `Database error! ${error}`
       callback(results.rows[0]);
+    })
+  },
+
+  findBy(filter, callback){
+    const query = `
+      SELECT
+        instructors.*,
+        COUNT(members.id) AS total_students
+      FROM
+        instructors
+      LEFT JOIN members
+        ON members.instructor_id = instructors.id
+      WHERE
+        instructors.name ILIKE '%${filter}%'
+        OR instructors.services ILIKE '%${filter}%'
+      GROUP BY
+        instructors.id
+      ORDER BY
+        total_students DESC,
+        instructors.name ASC
+    `;
+
+    db.query(query, (error, results) => {
+      if(error) throw `Database error! ${error}`
+      callback(results.rows);
     })
   },
 

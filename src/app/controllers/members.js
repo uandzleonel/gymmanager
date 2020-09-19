@@ -1,4 +1,4 @@
-const { age, date } = require('../../lib/utils');
+const { date } = require('../../lib/utils');
 const Member = require('../models/Member');
 
 module.exports = {
@@ -9,7 +9,9 @@ module.exports = {
    },
 
   create(request, response) {
-    return response.render('members/create');
+    Member.instructorsSelectOptions(options => {
+      return response.render('members/create', { instructorOptions: options });
+    })
   },
 
   post(request, response) {
@@ -42,9 +44,8 @@ module.exports = {
         });
       }
 
-      member.age = age(member.birth);
+      member.age = date(member.birth).birthDay;
       member.blood = member.blood.replace('0', '-').replace('1', '+');
-      member.created_at = date(member.created_at).birthDay;
 
       return response.render('members/show', { member });
     })
@@ -61,7 +62,9 @@ module.exports = {
 
       member.birth = date(member.birth).iso;
 
-      return response.render('members/edit', { member });
+      Member.instructorsSelectOptions(options => {
+        return response.render('members/edit', { member, instructorOptions: options });
+      });
     })
   },
 

@@ -3,11 +3,22 @@ const Instructor = require('../models/Instructor');
 
 module.exports = {
   index(request, response) {
-    Instructor.all(instructors => {
-      for(instructor of instructors)
-        instructor.services = instructor.services.toUpperCase().split(',');
-      return response.render('instructors/index', { instructors });
-    })
+    const { filter } = request.query;
+
+    if(filter){
+      Instructor.findBy(filter, instructors => {
+        for(instructor of instructors)
+          instructor.services = instructor.services.toUpperCase().split(',');
+        return response.render('instructors/index', { instructors, filter });
+      })
+    }
+    else {
+      Instructor.all(instructors => {
+        for(instructor of instructors)
+          instructor.services = instructor.services.toUpperCase().split(',');
+        return response.render('instructors/index', { instructors });
+      })
+    }
    },
 
   create(request, response) {
@@ -46,7 +57,7 @@ module.exports = {
 
       instructor.age = age(instructor.birth);
       instructor.services = instructor.services.toUpperCase().split(',');
-      instructor.created_at = date(instructor.created_at).birthDay;
+      instructor.created_at = date(instructor.created_at).format;
 
       return response.render('instructors/show', { instructor });
     })

@@ -23,8 +23,9 @@ module.exports = {
         blood,
         weight,
         height,
+        instructor_id,
         created_at
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
       RETURNING id
     `;
 
@@ -37,6 +38,7 @@ module.exports = {
       data.blood,
       data.weight,
       data.height,
+      data.instructor_id,
       new Date().toISOString()
     ]
 
@@ -49,18 +51,24 @@ module.exports = {
   find(id, callback){
     const query = `
       SELECT
-        id,
-        name,
-        avatar_url,
-        gender,
-        email,
-        birth,
-        blood,
-        weight,
-        height,
-        created_at
-      FROM members
-      WHERE id = $1
+        members.id,
+        members.name,
+        members.avatar_url,
+        members.gender,
+        members.email,
+        members.birth,
+        members.blood,
+        members.weight,
+        members.height,
+        members.instructor_id,
+        instructors.name AS instructor_name,
+        members.created_at
+      FROM
+        members
+      LEFT JOIN instructors
+        ON instructors.id = members.instructor_id
+      WHERE
+        members.id = $1
     `;
 
     db.query(query, [id], (error, results) => {
@@ -79,8 +87,9 @@ module.exports = {
         birth = ($5),
         blood = ($6),
         weight = ($7),
-        height = ($8)
-      WHERE id = ($9)
+        height = ($8),
+        instructor_id = ($9)
+      WHERE id = ($10)
     `;
 
     const values = [
@@ -92,6 +101,7 @@ module.exports = {
       data.blood,
       data.weight,
       data.height,
+      data.instructor_id,
       data.id
     ]
 
@@ -110,6 +120,21 @@ module.exports = {
     db.query(query, [id], (error, results) => {
       if(error) throw `Database error! ${error}`
       callback()
+    })
+  },
+
+  instructorsSelectOptions(callback){
+    const query = `
+      SELECT
+        id,
+        name
+      FROM
+        instructors
+    `;
+
+    db.query(query, (error, results) => {
+      if(error) throw 'Database error!';
+      callback(results.rows);
     })
   }
 }
