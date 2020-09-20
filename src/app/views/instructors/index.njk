@@ -2,13 +2,15 @@
 
 {% block content %}
 <div class="card table-container">
-    <div class="table-header">
-      <a href="/instructors/create">Novo</a>
-      <form action="/instructors" method="GET">
-        <input type="text" name="filter" value="{{ filter }}" placeholder="Nome ou Atendimento">
-        <button type="submit">Filtrar</button>
-      </form>
-    </div>
+
+  <div class="table-header">
+    <a href="/instructors/create">Novo</a>
+
+    <form action="/instructors" method="GET">
+      <input type="text" name="filter" value="{{ filter }}" placeholder="Nome ou Atendimento">
+      <button type="submit">Filtrar</button>
+    </form>
+  </div>
 
   <table width="100%">
     <thead>
@@ -39,5 +41,13 @@
     </tbody>
 
   </table>
+
+  <div class="pagination"
+    data-page={{ pagination.page }}
+    data-total={{ pagination.total }}
+    data-filter={{ filter }}
+  >
+  </div>
+
 </div>
 {% endblock %}

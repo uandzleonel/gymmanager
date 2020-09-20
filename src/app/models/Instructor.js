@@ -136,5 +136,51 @@ module.exports = {
       if(error) throw `Database error! ${error}`
       callback()
     })
+  },
+
+  paginate(params, callback){
+    const { filter, limit, offset } = params;
+
+    let filterQuery = '';
+    let totalQuery = ''
+
+    totalQuery = `
+      (SELECT COUNT(1) FROM instructors) as total
+    `;
+
+    if( filter ) {
+      filterQuery = `
+        WHERE
+          instructors.name ILIKE '%${filter}%'
+          OR instructors.services ILIKE '%${filter}%'
+      `;
+
+      totalQuery = `
+        (SELECT COUNT(1) FROM instructors ${filterQuery}) as total
+      `;
+    }
+
+    const query = `
+      SELECT
+        instructors.*,
+        COUNT(members.id) AS total_students,
+        ${totalQuery}
+      FROM
+        instructors
+      LEFT JOIN members
+        ON members.instructor_id = instructors.id
+      ${filterQuery}
+      GROUP BY
+        instructors.id
+      ORDER BY
+        total_students DESC,
+        instructors.name ASC
+      LIMIT ${limit} OFFSET ${offset}
+    `;
+
+    db.query(query, (error, results) => {
+      if(error) throw `Database error! ${error}`
+      callback(results.rows);
+    })
   }
 }

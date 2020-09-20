@@ -4,21 +4,28 @@ const Instructor = require('../models/Instructor');
 module.exports = {
   index(request, response) {
     const { filter } = request.query;
+    let { page, limit } = request.query;
 
-    if(filter){
-      Instructor.findBy(filter, instructors => {
-        for(instructor of instructors)
-          instructor.services = instructor.services.toUpperCase().split(',');
-        return response.render('instructors/index', { instructors, filter });
-      })
+    page = page || 1;
+    limit = limit || 5;
+
+    const params = {
+      filter,
+      limit,
+      offset: limit * (page - 1)
     }
-    else {
-      Instructor.all(instructors => {
-        for(instructor of instructors)
-          instructor.services = instructor.services.toUpperCase().split(',');
-        return response.render('instructors/index', { instructors });
-      })
-    }
+
+    Instructor.paginate(params, instructors => {
+      for(instructor of instructors)
+        instructor.services = instructor.services.toUpperCase().split(',');
+
+      const pagination = {
+        page,
+        total: Math.ceil(Object.keys(instructors).length == 0 ? 0 : instructors[0].total / limit)
+      }
+
+      return response.render('instructors/index', { instructors, pagination, filter });
+    })
    },
 
   create(request, response) {

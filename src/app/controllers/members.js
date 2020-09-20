@@ -3,8 +3,25 @@ const Member = require('../models/Member');
 
 module.exports = {
   index(request, response) {
-    Member.all(members => {
-      return response.render('members/index', { members });
+    const { filter } = request.query;
+    let { page, limit } = request.query;
+
+    page = page || 1;
+    limit = limit || 5;
+
+    const params = {
+      filter,
+      limit,
+      offset: limit * (page - 1)
+    }
+
+    Member.paginate(params, members => {
+      const pagination = {
+        page,
+        total: Math.ceil(Object.keys(members).length == 0 ? 0 : members[0].total / limit)
+      }
+
+      return response.render('members/index', { members, pagination, filter });
     })
    },
 

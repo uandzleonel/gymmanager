@@ -136,5 +136,45 @@ module.exports = {
       if(error) throw 'Database error!';
       callback(results.rows);
     })
+  },
+
+  paginate(params, callback){
+    const { filter, limit, offset } = params;
+
+    let filterQuery = '';
+    let totalQuery = ''
+
+    totalQuery = `
+      (SELECT COUNT(1) FROM members) as total
+    `;
+
+    if( filter ) {
+      filterQuery = `
+        WHERE
+          members.name ILIKE '%${filter}%'
+          OR members.email ILIKE '%${filter}%'
+      `;
+
+      totalQuery = `
+        (SELECT COUNT(1) FROM members ${filterQuery}) as total
+      `;
+    }
+
+    const query = `
+      SELECT
+        members.*,
+        ${totalQuery}
+      FROM
+        members
+      ${filterQuery}
+      ORDER BY
+        members.name ASC
+      LIMIT ${limit} OFFSET ${offset}
+    `;
+
+    db.query(query, (error, results) => {
+      if(error) throw `Database error! ${error}`
+      callback(results.rows);
+    })
   }
 }
