@@ -7,7 +7,7 @@ module.exports = {
     let { page, limit } = request.query;
 
     page = page || 1;
-    limit = limit || 5;
+    limit = limit || 4;
 
     const params = {
       filter,
